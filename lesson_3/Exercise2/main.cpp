@@ -1,20 +1,52 @@
+/**
+ * @file main.cpp
+ * @author PANADOL (rakkerrss@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-06-13
+ * @copyright Copyright (c) 2022
+ * 
+ * Программа просит пользователя ввести число от 0 до 255 и выводит его как 8-битное двоичное число (в парах по 4 цифры).
+ */
 #include <iostream>
-#include <cmath> // для функции fabs()
- 
-// Возвращаем true, если разница между a и b в пределах процента эпсилона 
-bool approximatelyEqual(double a, double b, double epsilon)
+
+int enterNumber()                                      // Просит пользователя ввести число от 0 до 255
 {
-	return fabs(a - b) <= ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
+	std::cout << "Enter a number from 0 to 255: ";
+    int number;
+    std::cin >> number;
+	return number;
+}
+ 
+int binar(int number, int des)
+{
+    if (number >= des)                                // Проверяем, является ли number больше определенного числа, умноженного на 2 и выводим бит
+	{
+        std::cout << "1";
+		return number - des;                          // Если number больше, чем число, умноженное на 2, то вычитаем его из значения
+	}
+    else
+        std::cout << "0";
+		return number;
 }
  
 int main()
 {
-	// Значение a очень близко к 1.0, но, из-за ошибок округления, чуть меньше 1.0
-	double a = 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1;
+    int number(enterNumber());
  
-	// Во-первых, давайте сравним значение a (почти 1.0) с 1.0
-	std::cout << approximatelyEqual(a, 1.0, 1e-8) << "\n";
+    number = binar(number, 128);
+    number = binar(number, 64);
+    number = binar(number, 32);
+    number = binar(number, 16);
  
-	// Во-вторых, давайте сравним значение a - 1.0 (почти 0.0) с 0.0
-	std::cout << approximatelyEqual(a - 1.0, 0.0, 1e-8) << "\n";
+    std::cout << " ";
+ 
+    number = binar(number, 8);
+    number = binar(number, 4);
+    number = binar(number, 2);
+    number = binar(number, 1);
+ 
+    return 0;
 }
+
+//(0 * 128) + (1 * 64) + (0 * 32) + (1 * 16) + (1 * 8) + (1 * 4) + (1 * 2) + (0 * 1 ) = 64 + 16 + 8 + 4 + 2 = 94
